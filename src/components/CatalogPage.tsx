@@ -1,18 +1,8 @@
 import React, { useState } from 'react';
-import { Button } from './ui/button';
 import { Heart, ShoppingBag } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
-import { rings } from '../../lib/data';
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  type: 'classic' | 'textured' | 'mens' | 'classic_mens' | 'textured_mens';
-}
+import { ImageWithFallback } from './ImageWithFallback';
+import { rings, categoryNames, getRingsByCategory } from '../data';
+import { Product } from '../types';
 
 interface CatalogPageProps {
   onNavigate: (page: string, productId?: string) => void;
@@ -21,31 +11,13 @@ interface CatalogPageProps {
   favorites: string[];
 }
 
-const categoryNames: Record<string, string> = {
-  all: 'Все',
-  classic: 'Классические',
-  textured: 'Текстурные',
-  mens: 'Мужские размеры'
-};
-
 export function CatalogPage({ onNavigate, onAddToCart, onToggleFavorite, favorites }: CatalogPageProps) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const categories = ['all', 'classic', 'textured', 'mens'];
   
   const filteredRings = selectedCategory === 'all' 
     ? rings 
-    : rings.filter(ring => {
-        switch (selectedCategory) {
-          case 'classic':
-            return ring.type === 'classic' || ring.type === 'classic_mens';
-          case 'textured':
-            return ring.type === 'textured' || ring.type === 'textured_mens';
-          case 'mens':
-            return ring.type === 'classic_mens' || ring.type === 'textured_mens';
-          default:
-            return true;
-        }
-      });
+    : getRingsByCategory(selectedCategory);
 
   return (
     <div className="min-h-screen py-8">
@@ -54,7 +26,7 @@ export function CatalogPage({ onNavigate, onAddToCart, onToggleFavorite, favorit
         <div className="text-center mb-12">
           <h1 className="mb-4 text-silver-bright">Коллекция Колец</h1>
           <p className="text-silver-dim max-w-2xl mx-auto">
-            Исследуйте нашу полную коллекцию из 24 уникальных серебряных колец ручной работы. 
+            Исследуйте нашу полную коллекцию уникальных серебряных колец ручной работы. 
             Каждое кольцо создано с особым вниманием к деталям и вдохновлено природными текстурами.
           </p>
         </div>
@@ -62,18 +34,17 @@ export function CatalogPage({ onNavigate, onAddToCart, onToggleFavorite, favorit
         {/* Category Filter */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories.map((category) => (
-            <Button
+            <button
               key={category}
-              variant={selectedCategory === category ? 'default' : 'outline'}
               onClick={() => setSelectedCategory(category)}
-              className={`tracking-wide transition-all duration-300 ${
+              className={`tracking-wide transition-all duration-300 px-6 py-2 rounded-md ${
                 selectedCategory === category
                   ? 'bg-silver-accent text-silver-bright hover:bg-silver-accent-light'
-                  : 'border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright'
+                  : 'border border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright'
               }`}
             >
               {categoryNames[category as keyof typeof categoryNames]}
-            </Button>
+            </button>
           ))}
         </div>
 
@@ -109,27 +80,25 @@ export function CatalogPage({ onNavigate, onAddToCart, onToggleFavorite, favorit
                   <p className="text-chrome tracking-wide">₽{ring.price.toLocaleString()}</p>
                 </div>
                 
-                {/* Always visible action buttons */}
                 <div className="flex gap-2 pt-2">
-                  <Button
+                  <button
                     onClick={() => onToggleFavorite(ring.id)}
-                    variant="outline"
-                    className={`flex-1 transition-all duration-300 ${
+                    className={`flex-1 transition-all duration-300 px-4 py-2 rounded-md border ${
                       favorites.includes(ring.id) 
                         ? 'bg-silver-accent text-silver-bright border-silver-accent hover:bg-silver-accent-light' 
                         : 'border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright'
                     }`}
                   >
-                    <Heart className={`w-4 h-4 mr-2 ${favorites.includes(ring.id) ? 'fill-current' : ''}`} />
+                    <Heart className={`w-4 h-4 mr-2 inline ${favorites.includes(ring.id) ? 'fill-current' : ''}`} />
                     {favorites.includes(ring.id) ? 'В избранном' : 'В избранное'}
-                  </Button>
-                  <Button
+                  </button>
+                  <button
                     onClick={() => onAddToCart(ring)}
-                    className="flex-1 bg-silver-accent hover:bg-silver-accent-light text-silver-bright transition-all duration-300"
+                    className="flex-1 bg-silver-accent hover:bg-silver-accent-light text-silver-bright transition-all duration-300 px-4 py-2 rounded-md"
                   >
-                    <ShoppingBag className="w-4 h-4 mr-2" />
+                    <ShoppingBag className="w-4 h-4 mr-2 inline" />
                     В корзину
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div>
@@ -141,13 +110,12 @@ export function CatalogPage({ onNavigate, onAddToCart, onToggleFavorite, favorit
           <div className="text-silver-shadow text-sm mb-4">
             Показаны все доступные модели
           </div>
-          <Button 
-            variant="outline"
+          <button 
             onClick={() => onNavigate('about')}
-            className="border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright px-8 py-3 tracking-wide transition-all duration-300"
+            className="border border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright px-8 py-3 tracking-wide transition-all duration-300 rounded-md"
           >
             Узнать о новых коллекциях
-          </Button>
+          </button>
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button } from './ui/button';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -31,19 +30,18 @@ export function HomePage({ onNavigate }: HomePageProps) {
             Серебряные украшения, вдохновленные суровой красотой выветренного камня и древних трещин.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
+            <button
               onClick={() => onNavigate('catalog')}
-              className="bg-silver-accent hover:bg-silver-accent-light text-silver-bright px-8 py-3 tracking-wide transition-all duration-300"
+              className="bg-silver-accent hover:bg-silver-accent-light text-silver-bright px-8 py-3 tracking-wide transition-all duration-300 rounded-md"
             >
               ИЗУЧИТЬ КОЛЛЕКЦИЮ
-            </Button>
-            <Button
-              variant="outline"
+            </button>
+            <button
               onClick={() => onNavigate('about')}
-              className="border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright px-8 py-3 tracking-wide transition-all duration-300"
+              className="border border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright px-8 py-3 tracking-wide transition-all duration-300 rounded-md"
             >
               НАША ИСТОРИЯ
-            </Button>
+            </button>
           </div>
         </div>
       </section>
@@ -108,9 +106,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
               placeholder="Введите ваш email"
               className="flex-1 px-4 py-3 bg-graphite text-silver-muted border border-slate-dark rounded-l-md focus:outline-none focus:ring-2 focus:ring-silver-accent focus:border-silver-accent"
             />
-            <Button className="bg-silver-accent hover:bg-silver-accent-light text-silver-bright px-6 py-3 rounded-r-md rounded-l-none transition-all duration-300">
+            <button className="bg-silver-accent hover:bg-silver-accent-light text-silver-bright px-6 py-3 rounded-r-md rounded-l-none transition-all duration-300">
               ПОДПИСАТЬСЯ
-            </Button>
+            </button>
           </div>
         </div>
       </section>

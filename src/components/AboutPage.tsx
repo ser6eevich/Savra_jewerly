@@ -1,6 +1,5 @@
 import React from 'react';
 import { Instagram, Youtube, Send, MessageCircle, Clock, Truck, Hammer } from 'lucide-react';
-import { Button } from './ui/button';
 
 export function AboutPage() {
   return (
@@ -113,30 +112,18 @@ export function AboutPage() {
             </p>
             
             <div className="flex justify-center gap-6 mb-8">
-              <Button
-                variant="outline"
-                className="border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright p-4 rounded-full transition-all duration-300"
-              >
+              <button className="border border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright p-4 rounded-full transition-all duration-300">
                 <Instagram className="w-6 h-6" />
-              </Button>
-              <Button
-                variant="outline"
-                className="border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright p-4 rounded-full transition-all duration-300"
-              >
+              </button>
+              <button className="border border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright p-4 rounded-full transition-all duration-300">
                 <Youtube className="w-6 h-6" />
-              </Button>
-              <Button
-                variant="outline"
-                className="border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright p-4 rounded-full transition-all duration-300"
-              >
+              </button>
+              <button className="border border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright p-4 rounded-full transition-all duration-300">
                 <Send className="w-6 h-6" />
-              </Button>
-              <Button
-                variant="outline"
-                className="border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright p-4 rounded-full transition-all duration-300"
-              >
+              </button>
+              <button className="border border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright p-4 rounded-full transition-all duration-300">
                 <MessageCircle className="w-6 h-6" />
-              </Button>
+              </button>
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-silver-shadow">
@@ -169,15 +156,12 @@ export function AboutPage() {
               Мы всегда рады помочь вам найти идеальное украшение.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-silver-accent hover:bg-silver-accent-light text-silver-bright px-8 py-3 tracking-wide transition-all duration-300">
+              <button className="bg-silver-accent hover:bg-silver-accent-light text-silver-bright px-8 py-3 tracking-wide transition-all duration-300 rounded-md">
                 Написать нам
-              </Button>
-              <Button
-                variant="outline"
-                className="border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright px-8 py-3 tracking-wide transition-all duration-300"
-              >
+              </button>
+              <button className="border border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright px-8 py-3 tracking-wide transition-all duration-300 rounded-md">
                 Заказать звонок
-              </Button>
+              </button>
             </div>
           </div>
         </section>

@@ -41,10 +41,3 @@ export interface AuthState {
 }
 
 export type RingCategory = 'classic' | 'textured' | 'mens';
-
-export interface RingConstructorState {
-  selectedCategory: RingCategory | null;
-  selectedRing: Product | null;
-  selectedSize: string | null;
-  isOrderModalOpen: boolean;
-}

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Heart, ShoppingBag, Menu, User, LogOut } from 'lucide-react';
-import { Button } from './ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
-import { User as UserType } from '../../lib/types';
+import { User as UserType } from '../types';
 
 interface HeaderProps {
   currentPage: string;
@@ -73,11 +71,9 @@ export function Header({
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="sm"
+            <button
               onClick={() => onNavigate('favorites')}
-              className="relative p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light"
+              className="relative p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light rounded-md transition-colors"
             >
               <Heart className="w-5 h-5" />
               {favoritesCount > 0 && (
@@ -85,13 +81,11 @@ export function Header({
                   {favoritesCount}
                 </span>
               )}
-            </Button>
+            </button>
             
-            <Button
-              variant="ghost"
-              size="sm"
+            <button
               onClick={() => onNavigate('cart')}
-              className="relative p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light"
+              className="relative p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light rounded-md transition-colors"
             >
               <ShoppingBag className="w-5 h-5" />
               {cartItemCount > 0 && (
@@ -99,68 +93,56 @@ export function Header({
                   {cartItemCount}
                 </span>
               )}
-            </Button>
+            </button>
 
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="hidden sm:inline-flex p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light"
-                  >
-                    <div className="flex items-center gap-2">
-                      {user.avatar ? (
-                        <img
-                          src={user.avatar}
-                          alt="Profile"
-                          className="w-6 h-6 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-6 h-6 rounded-full bg-silver-accent flex items-center justify-center text-xs text-silver-bright">
-                          {user.firstName.charAt(0)}{user.lastName.charAt(0)}
-                        </div>
-                      )}
-                      <span className="hidden md:inline">{user.firstName}</span>
-                    </div>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-graphite border-slate-dark">
-                  <DropdownMenuItem 
+              <div className="relative group">
+                <button className="hidden sm:inline-flex p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light rounded-md transition-colors">
+                  <div className="flex items-center gap-2">
+                    {user.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt="Profile"
+                        className="w-6 h-6 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-6 h-6 rounded-full bg-silver-accent flex items-center justify-center text-xs text-silver-bright">
+                        {user.firstName.charAt(0)}{user.lastName.charAt(0)}
+                      </div>
+                    )}
+                    <span className="hidden md:inline">{user.firstName}</span>
+                  </div>
+                </button>
+                <div className="absolute right-0 top-full mt-2 w-48 bg-graphite border border-slate-dark rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                  <button 
                     onClick={() => onNavigate('profile')}
-                    className="text-silver-muted hover:bg-slate-dark hover:text-silver-bright"
+                    className="w-full text-left px-4 py-2 text-silver-muted hover:bg-slate-dark hover:text-silver-bright flex items-center"
                   >
                     <User className="w-4 h-4 mr-2" />
                     Личный кабинет
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-slate-dark" />
-                  <DropdownMenuItem 
+                  </button>
+                  <hr className="border-slate-dark" />
+                  <button 
                     onClick={onLogout}
-                    className="text-silver-muted hover:bg-slate-dark hover:text-silver-bright"
+                    className="w-full text-left px-4 py-2 text-silver-muted hover:bg-slate-dark hover:text-silver-bright flex items-center"
                   >
                     <LogOut className="w-4 h-4 mr-2" />
                     Выйти
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  </button>
+                </div>
+              </div>
             ) : (
-              <Button
-                variant="outline"
-                size="sm"
+              <button
                 onClick={onOpenAuth}
-                className="hidden sm:inline-flex border-steel-dark text-silver-dim hover:bg-silver-accent hover:text-silver-bright transition-colors"
+                className="hidden sm:inline-flex border border-steel-dark text-silver-dim hover:bg-silver-accent hover:text-silver-bright px-4 py-2 rounded-md transition-colors"
               >
                 ВХОД
-              </Button>
+              </button>
             )}
 
-            <Button
-              variant="ghost"
-              size="sm"
-              className="md:hidden p-2 text-silver-dim hover:text-silver-accent-light"
-            >
+            <button className="md:hidden p-2 text-silver-dim hover:text-silver-accent-light">
               <Menu className="w-5 h-5" />
-            </Button>
+            </button>
           </div>
         </div>
       </div>

@@ -1,24 +1,8 @@
 import React, { useState } from 'react';
-import { Button } from './ui/button';
 import { Heart, ArrowLeft, ShoppingBag } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Badge } from './ui/badge';
-import { getRingById } from '../../lib/data';
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  collection: string;
-  article: string;
-  material: string;
-  detailedDescription: string;
-  sizes: string[];
-}
+import { ImageWithFallback } from './ImageWithFallback';
+import { getRingById } from '../data';
+import { Product } from '../types';
 
 interface ProductDetailPageProps {
   productId: string;
@@ -38,9 +22,12 @@ export function ProductDetailPage({ productId, onNavigate, onAddToCart, onToggle
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-silver-bright mb-4">Товар не найден</h2>
-          <Button onClick={() => onNavigate('catalog')}>
+          <button 
+            onClick={() => onNavigate('catalog')}
+            className="bg-silver-accent hover:bg-silver-accent-light text-silver-bright px-6 py-3 rounded-md"
+          >
             Вернуться к каталогу
-          </Button>
+          </button>
         </div>
       </div>
     );
@@ -58,14 +45,13 @@ export function ProductDetailPage({ productId, onNavigate, onAddToCart, onToggle
     <div className="min-h-screen py-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
-        <Button
-          variant="ghost"
+        <button
           onClick={() => onNavigate('catalog')}
-          className="mb-8 p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light"
+          className="mb-8 p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light rounded-md flex items-center"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Назад к каталогу
-        </Button>
+        </button>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Product Image */}
@@ -96,13 +82,12 @@ export function ProductDetailPage({ productId, onNavigate, onAddToCart, onToggle
           <div className="space-y-6">
             {/* Header */}
             <div>
-              <Badge variant="secondary" className="mb-2 bg-slate-dark text-silver-dim">
+              <div className="mb-2 bg-slate-dark text-silver-dim px-3 py-1 rounded-md inline-block text-sm">
                 {product.collection}
-              </Badge>
+              </div>
               <div className="flex items-start justify-between mb-2">
                 <h1 className="text-silver-bright">{product.name}</h1>
-                <Button
-                  variant="ghost"
+                <button
                   onClick={() => onToggleFavorite(product.id)}
                   className={`p-3 rounded-full transition-all duration-300 ${
                     isFavorite 
@@ -111,7 +96,7 @@ export function ProductDetailPage({ productId, onNavigate, onAddToCart, onToggle
                   }`}
                 >
                   <Heart className={`w-6 h-6 ${isFavorite ? 'fill-current' : ''}`} />
-                </Button>
+                </button>
               </div>
               <p className="text-silver-dim">{product.description}</p>
             </div>
@@ -147,32 +132,32 @@ export function ProductDetailPage({ productId, onNavigate, onAddToCart, onToggle
             {/* Size Selection */}
             <div className="space-y-3">
               <h3 className="text-silver-bright">Выберите размер</h3>
-              <Select value={selectedSize} onValueChange={setSelectedSize}>
-                <SelectTrigger className="w-full border-slate-dark bg-graphite text-silver-muted">
-                  <SelectValue placeholder="Выберите размер кольца" />
-                </SelectTrigger>
-                <SelectContent className="bg-graphite border-slate-dark">
-                  {product.sizes.map((size) => (
-                    <SelectItem key={size} value={size} className="text-silver-muted hover:bg-slate-dark">
-                      Размер {size}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <select 
+                value={selectedSize} 
+                onChange={(e) => setSelectedSize(e.target.value)}
+                className="w-full border border-slate-dark bg-graphite text-silver-muted p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-silver-accent"
+              >
+                <option value="">Выберите размер кольца</option>
+                {product.sizes.map((size) => (
+                  <option key={size} value={size}>
+                    Размер {size}
+                  </option>
+                ))}
+              </select>
               <p className="text-sm text-silver-shadow">
                 Не знаете свой размер? <button className="text-silver-accent hover:text-silver-accent-light">Таблица размеров</button>
               </p>
             </div>
 
             {/* Add to Cart */}
-            <Button
+            <button
               onClick={handleAddToCart}
               disabled={!selectedSize}
-              className="w-full bg-silver-accent hover:bg-silver-accent-light text-silver-bright py-3 tracking-wide transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-silver-accent hover:bg-silver-accent-light text-silver-bright py-3 tracking-wide transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed rounded-md flex items-center justify-center"
             >
               <ShoppingBag className="w-5 h-5 mr-2" />
               Добавить в корзину
-            </Button>
+            </button>
 
             {/* Product Description */}
             <div className="space-y-4 pt-6 border-t border-slate-dark">

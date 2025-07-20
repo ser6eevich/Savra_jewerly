@@ -5,12 +5,8 @@ import { CatalogPage } from './components/CatalogPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
 import { AboutPage } from './components/AboutPage';
 import { CartPage } from './components/CartPage';
-import { FavoritesPage } from './components/FavoritesPage';
-import { NotFoundPage } from './components/NotFoundPage';
-import { AuthModal } from './components/auth/AuthModal';
-import { ProfilePage } from './components/profile/ProfilePage';
-import { RingConstructorPage } from './components/constructor/RingConstructorPage';
-import { CartItem, Product, User, AuthState } from '../lib/types';
+import { AuthModal } from './components/AuthModal';
+import { CartItem, Product, User, AuthState } from './types';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -46,13 +42,6 @@ export default function App() {
       isLoading: false
     });
     setCurrentPage('home');
-  };
-
-  const handleUpdateUser = (user: User) => {
-    setAuthState(prev => ({
-      ...prev,
-      user
-    }));
   };
 
   const handleOpenAuth = () => {
@@ -110,10 +99,6 @@ export default function App() {
     );
   };
 
-  const handleRemoveFavorite = (productId: string) => {
-    setFavorites(prev => prev.filter(id => id !== productId));
-  };
-
   const getTotalCartItems = () => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
@@ -152,36 +137,8 @@ export default function App() {
             onRemoveItem={handleRemoveFromCart}
           />
         );
-      case 'favorites':
-        return (
-          <FavoritesPage
-            favorites={favorites}
-            onNavigate={handleNavigate}
-            onRemoveFavorite={handleRemoveFavorite}
-            onAddToCart={handleAddToCart}
-          />
-        );
-      case 'profile':
-        return authState.user ? (
-          <ProfilePage
-            user={authState.user}
-            onNavigate={handleNavigate}
-            onUpdateUser={handleUpdateUser}
-          />
-        ) : (
-          <NotFoundPage onNavigate={handleNavigate} />
-        );
-      case 'constructor':
-        return (
-          <RingConstructorPage
-            onNavigate={handleNavigate}
-            onAddToCart={handleAddToCart}
-          />
-        );
-      case '404':
-        return <NotFoundPage onNavigate={handleNavigate} />;
       default:
-        return <NotFoundPage onNavigate={handleNavigate} />;
+        return <HomePage onNavigate={handleNavigate} />;
     }
   };
 
@@ -220,7 +177,6 @@ export default function App() {
               <div className="space-y-2 text-sm text-silver-dim">
                 <button onClick={() => handleNavigate('catalog')} className="block hover:text-silver-accent-light transition-colors">Кольца</button>
                 <button onClick={() => handleNavigate('about')} className="block hover:text-silver-accent-light transition-colors">О нас</button>
-                <button onClick={() => handleNavigate('constructor')} className="block hover:text-silver-accent-light transition-colors">Конструктор</button>
               </div>
             </div>
             <div>

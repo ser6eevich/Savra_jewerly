@@ -1,18 +1,7 @@
 import React, { useState } from 'react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
 import { ArrowLeft, Minus, Plus, Trash2, Tag, CreditCard, Calendar } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
-import { Separator } from './ui/separator';
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  quantity: number;
-  size?: string;
-}
+import { ImageWithFallback } from './ImageWithFallback';
+import { CartItem } from '../types';
 
 interface CartPageProps {
   cartItems: CartItem[];
@@ -62,14 +51,13 @@ export function CartPage({ cartItems, onNavigate, onUpdateQuantity, onRemoveItem
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-center mb-8">
-          <Button
-            variant="ghost"
+          <button
             onClick={() => onNavigate('catalog')}
-            className="mr-4 p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light"
+            className="mr-4 p-2 hover:bg-graphite text-silver-dim hover:text-silver-accent-light rounded-md flex items-center"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Продолжить покупки
-          </Button>
+          </button>
           <h1 className="text-silver-bright">Корзина</h1>
         </div>
 
@@ -93,35 +81,29 @@ export function CartPage({ cartItems, onNavigate, onUpdateQuantity, onRemoveItem
                         <h3 className="text-silver-bright">{item.name}</h3>
                         {item.size && <p className="text-silver-dim text-sm">Размер: {item.size}</p>}
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <button
                         onClick={() => onRemoveItem(item.id)}
-                        className="p-1 text-silver-dim hover:text-destructive hover:bg-transparent"
+                        className="p-1 text-silver-dim hover:text-red-400 hover:bg-transparent"
                       >
                         <Trash2 className="w-4 h-4" />
-                      </Button>
+                      </button>
                     </div>
                     
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
+                        <button
                           onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                          className="w-8 h-8 p-0 border-steel-dark hover:bg-steel-dark"
+                          className="w-8 h-8 p-0 border border-steel-dark hover:bg-steel-dark rounded-md flex items-center justify-center"
                         >
                           <Minus className="w-3 h-3" />
-                        </Button>
+                        </button>
                         <span className="w-8 text-center text-silver-muted">{item.quantity}</span>
-                        <Button
-                          variant="outline"
-                          size="sm"
+                        <button
                           onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                          className="w-8 h-8 p-0 border-steel-dark hover:bg-steel-dark"
+                          className="w-8 h-8 p-0 border border-steel-dark hover:bg-steel-dark rounded-md flex items-center justify-center"
                         >
                           <Plus className="w-3 h-3" />
-                        </Button>
+                        </button>
                       </div>
                       <span className="text-chrome">₽{(item.price * item.quantity).toLocaleString()}</span>
                     </div>
@@ -142,32 +124,29 @@ export function CartPage({ cartItems, onNavigate, onUpdateQuantity, onRemoveItem
                 <div className="flex gap-2">
                   <div className="flex-1 relative">
                     <Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-silver-shadow" />
-                    <Input
+                    <input
                       placeholder="Введите промокод"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
-                      className="pl-10 border-slate-dark bg-slate-dark text-silver-muted"
+                      className="pl-10 border border-slate-dark bg-slate-dark text-silver-muted w-full p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-silver-accent"
                     />
                   </div>
-                  <Button
+                  <button
                     onClick={handleApplyPromo}
-                    variant="outline"
-                    className="border-steel-dark hover:bg-steel-dark"
+                    className="border border-steel-dark hover:bg-steel-dark px-4 py-2 rounded-md text-silver-dim hover:text-silver-bright"
                   >
                     Применить
-                  </Button>
+                  </button>
                 </div>
               ) : (
                 <div className="flex items-center justify-between bg-steel-dark p-3 rounded border border-silver-accent">
                   <span className="text-silver-bright">Промокод SAVRA10</span>
-                  <Button
+                  <button
                     onClick={handleRemovePromo}
-                    variant="ghost"
-                    size="sm"
-                    className="text-silver-dim hover:text-destructive p-1"
+                    className="text-silver-dim hover:text-red-400 p-1"
                   >
                     <Trash2 className="w-4 h-4" />
-                  </Button>
+                  </button>
                 </div>
               )}
             </div>
@@ -193,7 +172,7 @@ export function CartPage({ cartItems, onNavigate, onUpdateQuantity, onRemoveItem
                 </span>
               </div>
               
-              <Separator className="bg-slate-dark" />
+              <hr className="border-slate-dark" />
               
               <div className="flex justify-between">
                 <span className="text-silver-bright">Итого:</span>
@@ -203,20 +182,15 @@ export function CartPage({ cartItems, onNavigate, onUpdateQuantity, onRemoveItem
 
             {/* Payment Options */}
             <div className="space-y-3">
-              <Button
-                className="w-full bg-silver-accent hover:bg-silver-accent-light text-silver-bright py-3 tracking-wide transition-all duration-300"
-              >
+              <button className="w-full bg-silver-accent hover:bg-silver-accent-light text-silver-bright py-3 tracking-wide transition-all duration-300 rounded-md flex items-center justify-center">
                 <CreditCard className="w-5 h-5 mr-2" />
                 Купить сейчас
-              </Button>
+              </button>
               
-              <Button
-                variant="outline"
-                className="w-full border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright py-3 tracking-wide transition-all duration-300"
-              >
+              <button className="w-full border border-steel-dark text-silver-dim hover:bg-steel-dark hover:text-silver-bright py-3 tracking-wide transition-all duration-300 rounded-md flex items-center justify-center">
                 <Calendar className="w-5 h-5 mr-2" />
                 Купить в рассрочку
-              </Button>
+              </button>
             </div>
 
             {/* Installment Info */}
