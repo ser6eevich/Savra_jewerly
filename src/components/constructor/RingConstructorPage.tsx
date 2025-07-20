@@ -5,8 +5,8 @@ import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Badge } from '../ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Product, RingCategory } from '../../lib/types';
-import { getRingsByCategory, categoryNames } from '../../lib/data';
+import { Product, RingCategory } from '../../../lib/types';
+import { getRingsByCategory, categoryNames } from '../../../lib/data';
 
 interface RingConstructorPageProps {
   onNavigate: (page: string) => void;

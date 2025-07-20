@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { ArrowLeft, Camera, Edit2, Save, X } from 'lucide-react';
-import { User } from '../../lib/types';
+import { User } from '../../../lib/types';
 
 interface ProfilePageProps {
   user: User;

@@ -5,7 +5,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
 import { Eye, EyeOff, Calendar, Phone, Shield } from 'lucide-react';
-import { User } from '../../lib/types';
+import { User } from '../../../lib/types';
 
 interface AuthModalProps {
   isOpen: boolean;

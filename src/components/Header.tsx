@@ -2,7 +2,7 @@ import React from 'react';
 import { Heart, ShoppingBag, Menu, User, LogOut } from 'lucide-react';
 import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
-import { User as UserType } from '../lib/types';
+import { User as UserType } from '../../lib/types';
 
 interface HeaderProps {
   currentPage: string;

@@ -4,6 +4,7 @@ import { Heart, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Badge } from './ui/badge';
+import { getRingById } from '../../lib/data';
 
 interface Product {
   id: string;
@@ -27,39 +28,24 @@ interface ProductDetailPageProps {
   favorites: string[];
 }
 
-const products: Product[] = [
-  {
-    id: '1',
-    name: 'Кольцо Эрозии',
-    description: 'Стерлинговое серебро с выветренной текстурой',
-    detailedDescription: 'Это уникальное кольцо создано в технике имитации природного выветривания. Каждая неровность и текстура тщательно проработана вручную, создавая ощущение камня, отшлифованного временем и стихией. Серебро покрыто специальным составом для придания естественного матового блеска.',
-    price: 10250,
-    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop&crop=center&auto=format&q=80',
-    category: 'rings',
-    collection: 'Природные Формы',
-    article: 'SVR-001-ERO',
-    material: 'Серебро 925°, матовое покрытие',
-    sizes: ['15', '16', '17', '18', '19', '20', '21']
-  },
-  {
-    id: '2',
-    name: 'Кольцо Край Скалы',
-    description: 'Необработанное серебро с естественными краями',
-    detailedDescription: 'Кольцо вдохновлено формами скальных образований. Нарочито грубая обработка краев создает контраст с полированной внутренней поверхностью. Широкая форма и массивность подчеркивают мужественность и силу природы.',
-    price: 11700,
-    image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=400&fit=crop&crop=center&auto=format&q=80',
-    category: 'rings',
-    collection: 'Геологические Формы',
-    article: 'SVR-002-CRF',
-    material: 'Серебро 925°, комбинированная полировка',
-    sizes: ['16', '17', '18', '19', '20', '21', '22']
-  }
-];
-
 export function ProductDetailPage({ productId, onNavigate, onAddToCart, onToggleFavorite, favorites }: ProductDetailPageProps) {
   const [selectedSize, setSelectedSize] = useState<string>('');
   
-  const product = products.find(p => p.id === productId) || products[0];
+  const product = getRingById(productId);
+  
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-silver-bright mb-4">Товар не найден</h2>
+          <Button onClick={() => onNavigate('catalog')}>
+            Вернуться к каталогу
+          </Button>
+        </div>
+      </div>
+    );
+  }
+  
   const isFavorite = favorites.includes(product.id);
 
   const handleAddToCart = () => {
