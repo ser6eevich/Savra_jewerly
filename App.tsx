@@ -6,38 +6,57 @@ import { ProductDetailPage } from './components/ProductDetailPage';
 import { AboutPage } from './components/AboutPage';
 import { CartPage } from './components/CartPage';
 import { FavoritesPage } from './components/FavoritesPage';
-import { RegisterPage } from './components/RegisterPage';
 import { NotFoundPage } from './components/NotFoundPage';
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  quantity: number;
-  size?: string;
-}
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-}
+import { AuthModal } from './components/auth/AuthModal';
+import { ProfilePage } from './components/profile/ProfilePage';
+import { RingConstructorPage } from './components/constructor/RingConstructorPage';
+import { CartItem, Product, User, AuthState } from './lib/types';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedProductId, setSelectedProductId] = useState<string>('');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [favorites, setFavorites] = useState<string[]>(['1', '2']); // Demo favorites
+  const [authState, setAuthState] = useState<AuthState>({
+    user: null,
+    isAuthenticated: false,
+    isLoading: false
+  });
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleNavigate = (page: string, productId?: string) => {
     setCurrentPage(page);
     if (productId) {
       setSelectedProductId(productId);
     }
+  };
+
+  const handleLogin = (user: User) => {
+    setAuthState({
+      user,
+      isAuthenticated: true,
+      isLoading: false
+    });
+  };
+
+  const handleLogout = () => {
+    setAuthState({
+      user: null,
+      isAuthenticated: false,
+      isLoading: false
+    });
+    setCurrentPage('home');
+  };
+
+  const handleUpdateUser = (user: User) => {
+    setAuthState(prev => ({
+      ...prev,
+      user
+    }));
+  };
+
+  const handleOpenAuth = () => {
+    setIsAuthModalOpen(true);
   };
 
   const handleAddToCart = (product: Product & { quantity?: number; size?: string }) => {
@@ -142,8 +161,23 @@ export default function App() {
             onAddToCart={handleAddToCart}
           />
         );
-      case 'register':
-        return <RegisterPage onNavigate={handleNavigate} />;
+      case 'profile':
+        return authState.user ? (
+          <ProfilePage
+            user={authState.user}
+            onNavigate={handleNavigate}
+            onUpdateUser={handleUpdateUser}
+          />
+        ) : (
+          <NotFoundPage onNavigate={handleNavigate} />
+        );
+      case 'constructor':
+        return (
+          <RingConstructorPage
+            onNavigate={handleNavigate}
+            onAddToCart={handleAddToCart}
+          />
+        );
       case '404':
         return <NotFoundPage onNavigate={handleNavigate} />;
       default:
@@ -158,10 +192,20 @@ export default function App() {
         onNavigate={handleNavigate}
         cartItemCount={getTotalCartItems()}
         favoritesCount={favorites.length}
+        user={authState.user}
+        onOpenAuth={handleOpenAuth}
+        onLogout={handleLogout}
       />
       <main>
         {renderCurrentPage()}
       </main>
+      
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onLogin={handleLogin}
+      />
+      
       <footer className="bg-pure-black text-silver-muted py-12 mt-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -176,7 +220,7 @@ export default function App() {
               <div className="space-y-2 text-sm text-silver-dim">
                 <button onClick={() => handleNavigate('catalog')} className="block hover:text-silver-accent-light transition-colors">Кольца</button>
                 <button onClick={() => handleNavigate('about')} className="block hover:text-silver-accent-light transition-colors">О нас</button>
-                <button onClick={() => handleNavigate('register')} className="block hover:text-silver-accent-light transition-colors">Регистрация</button>
+                <button onClick={() => handleNavigate('constructor')} className="block hover:text-silver-accent-light transition-colors">Конструктор</button>
               </div>
             </div>
             <div>
